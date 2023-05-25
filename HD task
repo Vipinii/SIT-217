@@ -1,14 +1,11 @@
-#include <VirtualWire.h> 
-#define LM2 4
-
+#define LM1 4
+#define LM2 5
 #define RM1 6
 #define RM2 7
 
 #define ENA 9
 #define ENB 10
 char command;
-char *data;
-
 void setup() 
 {
   // put your setup code here, to run once:
@@ -17,50 +14,29 @@ void setup()
   pinMode(RM1,OUTPUT);
   pinMode(RM2,OUTPUT);
   Serial.begin(9600);
-  vw_set_tx_pin (2);
-  vw_setup (2000);
-analogWrite(ENA,200);
-analogWrite(ENB,200);
+analogWrite(ENA,150);
+analogWrite(ENB,150);
 }
 void loop() {
 if (Serial.available() > 0) {
     command = Serial.read();
     Serial.println(command);
+    stop(); //Initialize with motors stoped.
     switch (command) {
-      case 'F':{
-        data="F";
-      vw_send((uint8_t *)data, strlen (data));
-      vw_wait_tx();
-      forward();}
+      case 'F':
+        forward();
         break;
-      case 'B':{
-        data="B";
-      vw_send((uint8_t *)data, strlen (data));
-      vw_wait_tx();
-      back();
-      }
+      case 'B':
+       back();
         break;
-      case 'L':{
-        data="L";
-      vw_send((uint8_t *)data, strlen (data));
-      vw_wait_tx();
-      left();
-      }
+      case 'L':
+       left();
         break;
-      case 'R':{
-        data="R";
-      vw_send((uint8_t *)data, strlen (data));
-      vw_wait_tx();
+      case 'R':
       right(); 
-      }
-       break;
+        break;
       case'S':
-      {
-        data="S";
-      vw_send((uint8_t *)data, strlen (data));
-      vw_wait_tx();
         stop();
-      }
         break;
 }
 }
@@ -86,6 +62,7 @@ void back()
     digitalWrite(RM2, HIGH);
 
 }
+
 void right()
 {
     digitalWrite(LM1, LOW);
@@ -97,4 +74,5 @@ void right()
     digitalWrite(LM2, LOW);
     digitalWrite(RM1, LOW);
     digitalWrite(RM2, LOW);
+
 }
