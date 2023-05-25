@@ -1,5 +1,6 @@
 #include <VirtualWire.h> 
-#define LM1 4
+#define hello
+
 #define LM2 5
 #define RM1 6
 #define RM2 7
